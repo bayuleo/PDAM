@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">PDAMMVP</string>
+    <string name="id_token">29911910530-55t7n822s4obs2hkphvufb0ilaakf4pi.apps.googleusercontent.com</string>
+
+    <string name="facebook_app_id">2483568315251258</string>
+    <string name="fb_login_protocol_scheme">fb2483568315251258</string>
+
+</resources>
