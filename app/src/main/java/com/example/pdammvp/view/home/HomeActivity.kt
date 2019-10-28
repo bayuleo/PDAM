@@ -47,7 +47,8 @@ public class HomeActivity : AppCompatActivity() {
 
     private fun initLayout() {
 
-        supportFragmentManager.beginTransaction().replace(R.id.home_fragment, homeFragment).commit()
+//        supportFragmentManager.beginTransaction().replace(R.id.home_fragment, homeFragment).commit()
+        supportFragmentManager.beginTransaction().add(R.id.home_fragment, homeFragment).commit()
 
         nav_home.setOnNavigationItemSelectedListener(mOnNavigationItemSelected)
 
