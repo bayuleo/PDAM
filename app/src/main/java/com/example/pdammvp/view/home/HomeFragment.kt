@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 
@@ -13,11 +14,12 @@ import com.example.pdammvp.databinding.FragmentHomeBinding
 import com.example.pdammvp.models.pojo.Product
 import com.example.pdammvp.view.home.adapter.HomeAdapter
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), HomeContract.View {
 
     var productList : MutableList<Product> = mutableListOf()
     private lateinit var mBinding : FragmentHomeBinding
     private lateinit var homeAdapter : HomeAdapter
+    private lateinit var presenter : HomePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +31,14 @@ class HomeFragment : Fragment() {
 
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
+        initPresenter()
         initLayout()
 
         return  mBinding.root
+    }
+
+    private fun initPresenter() {
+        presenter = HomePresenter(this)
     }
 
     private fun initLayout() {
@@ -40,8 +47,16 @@ class HomeFragment : Fragment() {
         homeAdapter = HomeAdapter(requireContext(),productList)
         mBinding.rvHome.adapter = homeAdapter
 
+        presenter.getDataProduct()
 
+    }
 
+    override fun onSuccessGetData() {
+        Toast.makeText(requireContext(),"Success", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onFailedGetData() {
+        Toast.makeText(requireContext(),"Failed", Toast.LENGTH_LONG).show()
     }
 
 }

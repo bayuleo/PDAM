@@ -1,5 +1,6 @@
 package com.example.pdammvp.network
 
+import com.example.pdammvp.models.parser.ProductParser
 import com.example.pdammvp.models.parser.UserParser
 import com.example.pdammvp.models.pojo.User
 import retrofit2.Call
@@ -11,4 +12,8 @@ public interface Service {
     @GET("")
     fun getUser(
             @Query("api_key") apiKey: String): Call<UserParser>
+
+    @GET("")
+    fun getProduct(
+        @Query("api_key") apiKey: String): Call<ProductParser>
 }
