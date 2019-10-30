@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName
 data class History(
 
     @field:SerializedName("no")
-    var no: String = "",
+    var no: Int = 0,
 
-    @field:SerializedName("Name")
+    @field:SerializedName("name")
     var name: String = ""
 
 )

@@ -14,6 +14,8 @@ import com.example.pdammvp.databinding.FragmentHomeBinding
 import com.example.pdammvp.models.pojo.Product
 import com.example.pdammvp.view.home.adapter.HomeAdapter
 
+
+
 class HomeFragment : Fragment(), HomeContract.View {
 
     var productList : MutableList<Product> = mutableListOf()
@@ -23,6 +25,20 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        retainInstance = true
+
+        initPresenter()
+        presenter.getDataProduct()
+
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -31,7 +47,6 @@ class HomeFragment : Fragment(), HomeContract.View {
 
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
-        initPresenter()
         initLayout()
 
         return  mBinding.root
@@ -47,16 +62,14 @@ class HomeFragment : Fragment(), HomeContract.View {
         homeAdapter = HomeAdapter(requireContext(),productList)
         mBinding.rvHome.adapter = homeAdapter
 
-        presenter.getDataProduct()
-
     }
 
-    override fun onSuccessGetData() {
-        Toast.makeText(requireContext(),"Success", Toast.LENGTH_LONG).show()
+    override fun onSuccessGetData(list: List<Product>) {
+        homeAdapter.updateData(list as MutableList<Product>)
+        homeAdapter.notifyDataSetChanged()
     }
 
-    override fun onFailedGetData() {
-        Toast.makeText(requireContext(),"Failed", Toast.LENGTH_LONG).show()
+    override fun onFailedGetData(message: String?) {
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.pdammvp.view.home
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import com.example.pdammvp.R
 import com.example.pdammvp.view.history.HistoryFragment
 import com.example.pdammvp.view.profile.ProfileFragment
@@ -19,17 +20,25 @@ public class HomeActivity : AppCompatActivity() {
     private val mOnNavigationItemSelected = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.btn_home -> {
-                supportFragmentManager.beginTransaction().replace(R.id.home_fragment, homeFragment).commit()
+                supportFragmentManager.beginTransaction().hide(historyFragment).hide(profileFragment).show(homeFragment).commit()
                 return@OnNavigationItemSelectedListener true
             }
 
             R.id.btn_history -> {
-                supportFragmentManager.beginTransaction().replace(R.id.home_fragment, historyFragment).commit()
+                if (historyFragment.isAdded){
+                    supportFragmentManager.beginTransaction().show(historyFragment).hide(profileFragment).hide(homeFragment).commit()
+                }else{
+                    supportFragmentManager.beginTransaction().hide(homeFragment).hide(profileFragment).add(R.id.home_fragment, historyFragment, "historyFragment").show(historyFragment).commit()
+                }
                 return@OnNavigationItemSelectedListener true
             }
 
             R.id.btn_exit -> {
-                supportFragmentManager.beginTransaction().replace(R.id.home_fragment, profileFragment).commit()
+                if (profileFragment.isAdded){
+                    supportFragmentManager.beginTransaction().hide(historyFragment).show(profileFragment).hide(homeFragment).commit()
+                }else {
+                    supportFragmentManager.beginTransaction().hide(homeFragment).hide(historyFragment).add(R.id.home_fragment, profileFragment, "profileFragment").show(profileFragment).commit()
+                }
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -45,10 +54,11 @@ public class HomeActivity : AppCompatActivity() {
         initLayout()
     }
 
+
+
     private fun initLayout() {
 
-//        supportFragmentManager.beginTransaction().replace(R.id.home_fragment, homeFragment).commit()
-        supportFragmentManager.beginTransaction().add(R.id.home_fragment, homeFragment).commit()
+        supportFragmentManager.beginTransaction().add(R.id.home_fragment, homeFragment, "homeFragment").commit()
 
         nav_home.setOnNavigationItemSelectedListener(mOnNavigationItemSelected)
 

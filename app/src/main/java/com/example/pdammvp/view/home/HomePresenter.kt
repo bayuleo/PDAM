@@ -1,6 +1,7 @@
 package com.example.pdammvp.view.home
 
 import com.example.pdammvp.models.parser.ProductParser
+import com.example.pdammvp.models.pojo.Product
 import com.example.pdammvp.network.Client
 import com.example.pdammvp.network.Service
 import retrofit2.Call
@@ -12,15 +13,16 @@ class HomePresenter constructor(val view: HomeContract.View) : HomeContract.Pres
         try{
             val client = Client()
             val apiService = client.getClient().create(Service::class.java)
-            val call: Call<ProductParser> = apiService.getProduct("xxxxxx")
+            val call: Call<ProductParser> = apiService.getProduct()
             call.enqueue(object : Callback<ProductParser>{
                 override fun onResponse(call: Call<ProductParser>, response: Response<ProductParser>
                 ) {
-                    view.onSuccessGetData()
+                    val data = response.body()?.getmResult() as List<Product>
+                    view.onSuccessGetData(data)
                 }
 
                 override fun onFailure(call: Call<ProductParser>, t: Throwable) {
-                    view.onFailedGetData()
+                    view.onFailedGetData(t.message)
                 }
 
             })
