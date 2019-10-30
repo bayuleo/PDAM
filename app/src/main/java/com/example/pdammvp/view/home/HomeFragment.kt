@@ -1,6 +1,7 @@
 package com.example.pdammvp.view.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,8 +26,6 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        retainInstance = true
 
         initPresenter()
         presenter.getDataProduct()
@@ -65,6 +64,7 @@ class HomeFragment : Fragment(), HomeContract.View {
     }
 
     override fun onSuccessGetData(list: List<Product>) {
+        Log.d("LOG", "Bayutest Success")
         homeAdapter.updateData(list as MutableList<Product>)
         homeAdapter.notifyDataSetChanged()
     }
